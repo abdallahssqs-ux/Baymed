@@ -7,7 +7,7 @@
     "build": "next build",
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare preview",
-    "cf:deploy": "opennextjs-cloudflare deploy",
+    "cf:deploy": "bash scripts/deploy-cloudflare.sh",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
