@@ -5,4 +5,4 @@ export type Question = {id:string;type:'single'|'multiple'|'truefalse'|'clinical
 export type Quiz = {id:string;course_id:string;item_id:string;title:string;description:string;questions:Question[];max_attempts:number;duration_minutes:number;shuffle:number;explanation_mode:string;published:number};
 export type Profile={id:string;name:string;email:string;role:'admin'|'student'};
 export type Note={id:string;title:string;body:string;course_id:string|null;item_id:string|null;created_at:number;updated_at:number};
-export type Settings={platform_name:string;tagline:string;about:string;contact_email:string;watermark:number;copy_notice:number};
+export type Settings={platform_name:string;tagline:string;about:string;contact_email:string;watermark:number;copy_notice:number;preview_mode?:boolean};

@@ -4,7 +4,7 @@ import { Env, Row, all, body, emailSchema, fail, first, hash, id, json, now, par
 export function courseDto(c:Row) { return {...c,objectives:parseJson(c.objectives,[])}; }
 export async function catalogRoute(req:Request,env:Env,path:string[]) {
   const url=new URL(req.url);
-  if(path[0]==='settings'&&req.method==='GET') return json(await first(env,'SELECT * FROM settings WHERE id=1'));
+  if(path[0]==='settings'&&req.method==='GET') return json({...await first(env,'SELECT * FROM settings WHERE id=1'),preview_mode:env.PREVIEW_MODE==='1'});
   if(path[0]==='contact'&&req.method==='POST') { const data=await body(req,z.object({name:required(120),email:emailSchema,message:required(5000)})); await rateLimit(env,'contact:'+await hash(req.headers.get('cf-connecting-ip')??'local'),5,3600); await run(env,'INSERT INTO contact_messages(id,name,email,message,created_at) VALUES(?,?,?,?,?)',id(),data.name,data.email,data.message,now()); return json({message:'وصلت رسالتك إلى إدارة المنصة.'},201); }
   if(path[0]==='my-courses'&&req.method==='GET') { const user=await requireUser(req,env); const courses=await all(env,'SELECT c.* FROM courses c JOIN grants g ON g.course_id=c.id WHERE g.email=? AND g.active=1 AND c.published=1 AND c.deleted_at IS NULL ORDER BY g.granted_at DESC',user.email); const requests=await all(env,'SELECT r.id,r.course_id,r.status,r.created_at,c.title FROM enrollment_requests r JOIN courses c ON c.id=r.course_id WHERE r.email=? AND c.deleted_at IS NULL ORDER BY r.created_at DESC',user.email); return json({courses:courses.map(courseDto),requests}); }
   if(path[0]==='courses'&&req.method==='GET') {

@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "baymed-preview",
+  "account_id": "233d49d3d8667d2c5c58da4bc4bd1d31",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-09",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {"directory": ".open-next/assets", "binding": "ASSETS"},
+  "services": [{"binding": "WORKER_SELF_REFERENCE", "service": "baymed-preview"}],
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "baymed-db",
+    "database_id": "29cd7330-fbb9-43cb-bdf7-8727f763c040",
+    "migrations_dir": "migrations"
+  }],
+  "vars": {"ENVIRONMENT": "preview", "PREVIEW_MODE": "1"}
+}

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-export interface Env { DB: D1Database; MEDIA: R2Bucket; APP_URL?: string; ADMIN_EMAIL?: string; RESEND_API_KEY?: string; AUTH_EMAIL_FROM?: string; ENVIRONMENT?: string; DEV_MAIL_URL?: string }
+export interface Env { DB: D1Database; MEDIA: R2Bucket; APP_URL?: string; ADMIN_EMAIL?: string; RESEND_API_KEY?: string; AUTH_EMAIL_FROM?: string; ENVIRONMENT?: string; PREVIEW_MODE?: string; DEV_MAIL_URL?: string }
 export type Row = Record<string, unknown>;
 export type User = { id: string; email: string; name: string; role: 'admin'|'student'; session_hash: string };
 export class HttpError extends Error { constructor(public status: number, message: string) { super(message); } }

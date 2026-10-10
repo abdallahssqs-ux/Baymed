@@ -1,11 +1,12 @@
 import { ZodError } from 'zod';
-import { Env, HttpError, json, originCheck } from './core';
+import { Env, HttpError, fail, json, originCheck } from './core';
 import { authRoute } from './auth';
 import { catalogRoute } from './catalog';
 import { adminRoute } from './admin';
 import { mediaRoute, uploadRoute } from './media';
 import { learningRoute, quizRoute } from './learning';
 export async function handle(req:Request,env:Env,path:string[]) { try {
+ if(env.PREVIEW_MODE==='1' && (!['GET','HEAD'].includes(req.method)||['admin','uploads','media','learn','notes','lock','quizzes','attempts','my-courses'].includes(path[0]))) fail(503,'هذه نسخة معاينة للقراءة فقط. سيتاح التسجيل والمحتوى الكامل عند إطلاق المنصة.');
  if(!['GET','HEAD'].includes(req.method))originCheck(req,env);
  if(path[0]==='auth')return await authRoute(req,env,path);
  if(path[0]==='admin')return await adminRoute(req,env,path);

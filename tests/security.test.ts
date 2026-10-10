@@ -3,6 +3,7 @@ import { test } from 'node:test';
 import type { Question } from '../src/lib/types';
 import { HttpError, originCheck, safeUrl, type Env } from '../src/lib/server/core';
 import { grade } from '../src/lib/server/learning';
+import { handle } from '../src/lib/server/router';
 
 const env = { APP_URL: 'https://baymed.example' } as Env;
 
@@ -26,6 +27,14 @@ test('state-changing requests reject a foreign origin', () => {
   assert.doesNotThrow(() => originCheck(request('https://baymed.example'), env));
   assert.throws(() => originCheck(request('https://other.example'), env), (error: unknown) => error instanceof HttpError && error.status === 403);
   assert.throws(() => originCheck(request('https://baymed.example', 'cross-site'), env), (error: unknown) => error instanceof HttpError && error.status === 403);
+});
+
+test('public preview cannot accept enrollment or serve private media', async () => {
+  const preview = { PREVIEW_MODE: '1' } as Env;
+  const enrollment = await handle(new Request('https://preview.example/api/enroll', { method: 'POST' }), preview, ['enroll']);
+  assert.equal(enrollment.status, 503);
+  const media = await handle(new Request('https://preview.example/api/media/file'), preview, ['media', 'file']);
+  assert.equal(media.status, 503);
 });
 
 const question = (value: Partial<Question> & Pick<Question, 'id' | 'type'>): Question => ({
