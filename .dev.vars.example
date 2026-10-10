@@ -1,0 +1,5 @@
+ENVIRONMENT=development
+APP_URL=http://localhost:3000
+ADMIN_EMAIL=admin@baymed.test
+AUTH_EMAIL_FROM=BayMed <noreply@baymed.test>
+DEV_MAIL_URL=http://127.0.0.1:8025
