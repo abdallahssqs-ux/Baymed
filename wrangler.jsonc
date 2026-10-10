@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "baymed",
+  "account_id": "233d49d3d8667d2c5c58da4bc4bd1d31",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-09",
   "compatibility_flags": [
@@ -21,7 +22,7 @@
     {
       "binding": "DB",
       "database_name": "baymed-db",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "29cd7330-fbb9-43cb-bdf7-8727f763c040",
       "migrations_dir": "migrations"
     }
   ],
